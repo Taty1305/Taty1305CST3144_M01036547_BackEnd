@@ -1,11 +1,101 @@
 var express = require("express"); 
+var cors = require("cors");
 var app = express(); 
 
-app.use(function(request, response) { 
-      console.log("In comes a request to: " + request.url);  
-      response.end("Hello, world!"); 
+app.use(cors());
+
+app.use(function(request, respose,next) { // Logger middleware, GET, POST, PUT, or DELETE,/lessons
+      console.log(
+            "Request Type:", request.method,
+            "| Requested URL:", request.url
+      );
+      next(); //This will passes control to the next middleware
+});
+
+var lessons = [
+      {
+            id: 1001,
+            subject: "Maths",
+            location: "Hendon",
+            price: 25,
+            availability: 5
+      },
+      {
+            id: 1002,
+            subject: "English",
+            location: "Golders Green",
+            price: 30,
+            availability: 5
+      },
+      {
+            id: 1003,
+            subject: "Biology",
+            location: "Hendon",
+            price: 20,
+            availability: 5
+      },
+      {
+            id: 1004,
+            subject: "History",
+            location: "Kilburn",
+            price: 30,
+            availability: 5
+      },
+      {
+            id: 1005,
+            subject: "Physics",
+            location: "Hendon",
+            price: 20,
+            availability: 5
+      },
+      {
+            id: 1006,
+            subject: "Chemistry",
+            location: "Golders Green",
+            price: 30,
+            availability: 5
+      },
+      {
+            id: 1007,
+            subject: "Science",
+            location: "Hendon",
+            price: 40,
+            availability: 5
+      },
+      {
+            id: 1008,
+            subject: "Coding",
+            location: "Hendon",
+            price: 30,
+            availability: 5
+      },
+      {
+            id: 1009,
+            subject: "Piano",
+            location: "Hendon",
+            price: 40,
+            availability: 5
+      },
+      {
+            id: 1010,
+            subject: "Football",
+            location: "Hendon",
+            price: 20,
+            availability: 5
+      }
+      ];
+
+app.get("/lessons", function (request, response) {
+      response.json(lessons);
+});
+
+
+app.use(function (request, response) {
+      response.status(404).json({
+            error: "404 - Route not found"
+      });
 });
 
 app.listen(3000, function() {  
-      console.log("App started on port 3000"); 
+      console.log("ClassHub server running on port 3000"); 
 }); 
