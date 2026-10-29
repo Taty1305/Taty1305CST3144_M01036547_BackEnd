@@ -1,9 +1,10 @@
 var express = require("express"); 
 var cors = require("cors");
+var path = require("path");
 var app = express(); 
 
 app.use(cors());
-app.use(express.static("images"));
+app.use(express.json());
 
 app.use(function(request, respose,next) { // Logger middleware, GET, POST, PUT, or DELETE,/lessons
       console.log(
@@ -13,7 +14,6 @@ app.use(function(request, respose,next) { // Logger middleware, GET, POST, PUT, 
       next(); //This will passes control to the next middleware
 });
 
-var path = require("path");
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 var lessons = [
@@ -91,6 +91,22 @@ var lessons = [
 
 app.get("/lessons", function (request, response) {
       response.json(lessons);
+});
+
+// POST route: receive a customer order
+app.post("/orders", function (request, response) {
+    var order = request.body;
+
+    console.log("New order received:");
+    console.log("Customer name:", order.name);
+    console.log("Telephone:", order.telephone);
+    console.log("Lesson IDs:", order.cart);
+
+    console.log("Number of items:", order.cart.length);
+
+    response.status(201).json({
+        message: "Order received successfully"
+    });
 });
 
 
