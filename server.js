@@ -3,6 +3,7 @@ var cors = require("cors");
 var app = express(); 
 
 app.use(cors());
+app.use(express.static("images"));
 
 app.use(function(request, respose,next) { // Logger middleware, GET, POST, PUT, or DELETE,/lessons
       console.log(
@@ -11,6 +12,9 @@ app.use(function(request, respose,next) { // Logger middleware, GET, POST, PUT, 
       );
       next(); //This will passes control to the next middleware
 });
+
+var path = require("path");
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 var lessons = [
       {
